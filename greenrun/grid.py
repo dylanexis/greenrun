@@ -8,6 +8,7 @@ import requests
 from datetime import datetime, timezone
 
 BASE_URL = "https://api.eia.gov/v2/electricity/rto/fuel-type-data/data/" 
+PAGE_SIZE = 5000 # EIA's maximum rows per request
 
 
 def fetch_fuel_mix(region, start, end):
@@ -25,30 +26,25 @@ def fetch_fuel_mix(region, start, end):
         "end": end,
         "sort[0][column]": "period",
         "sort[0][direction]": "asc",
-        "offset": "0",
-        "length": "5000"
+        "length": PAGE_SIZE
     }
+    fuel_mix = {}
+    offset = 0
     # Make JSON request, page through results
-    try: 
-        response = requests.get(BASE_URL, json=params, timeout=5)
-        response.raise_for_status()
-        body = response.json()
+    while True:
+            response = requests.get(BASE_URL, params={**params, "offset": offset}, timeout=30)
+            response.raise_for_status()
+            rows = response.json()["response"]["data"]
 
-        fuel_mix = {}
+            for row in rows:
+                if row["value"] is None: 
+                    continue
+                # Format: "period": {"fueltype": value}
+                fuel_mix.setdefault(row["period"], {})[row["fueltype"]] = float(row["value"])
+                if len(rows) < PAGE_SIZE:
+                     return fuel_mix
+                offset += PAGE_SIZE
 
-        for row in body["data"]:
-            if row["value"] is None: 
-                continue
-            fuel_mix.setdefault(row["period"], {})[row["fueltype"]] = float(row["value"])
-
-    except requests.exceptions.HTTPError as http_err:
-        print(f"HTTP error occurred: {http_err}")
-
-    except requests.exceptions.JSONDecodeError:
-        print(f"Response content not valid JSON")
-
-    except requests.exceptions.RequestException as err:
-        print(f"An error occurred: {err}")
 
 
     

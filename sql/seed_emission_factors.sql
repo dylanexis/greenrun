@@ -10,5 +10,5 @@ VALUES ('BAT', 'Battery', '0', NULL),
 ('WAT', 'Hydro', 24, 'https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_annex-iii.pdf'),
 ('SUN', 'Solar PV (utility)', 48, 'https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_annex-iii.pdf'),
 ('WND', 'Wind (onshore)', 11, 'https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_annex-iii.pdf'),
-('OIL', 'Petroleum', NULL, NULL),
-('OTH', 'Other', NULL, NULL);
+('OIL', 'Petroleum', 840, 'https://www.ipcc.ch/report/renewable-energy-sources-and-climate-change-mitigation/'),
+('OTH', 'Other (assumed = gas)', 490, NULL);
