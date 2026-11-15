@@ -8,7 +8,7 @@ contains database queries for logging jobs and their scheduled/immediate intensi
 def insert_job(conn, **fields):
     columns = ", ".join(fields)
     marks = ", ".join("?" * len(fields))
-    cursor = conn.execute(f"INSERT INTO jobs({columns})) VALUES ({marks})", tuple(fields.values()))
+    cursor = conn.execute(f"INSERT INTO jobs({columns}) VALUES ({marks})", tuple(fields.values()))
     conn.commit()
     return cursor.lastrowid
 
