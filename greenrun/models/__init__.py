@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 
 
-SQL_DIR = Path(__file__).resolve().parent[2] / "sql"
+SQL_DIR = Path(__file__).resolve().parents[2] / "sql"
 
 def connect(path):
     """Open the database, creating tables and emission factors for the first time"""

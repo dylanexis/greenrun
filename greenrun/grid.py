@@ -41,9 +41,9 @@ def fetch_fuel_mix(region, start, end):
                     continue
                 # Format: "period": {"fueltype": value}
                 fuel_mix.setdefault(row["period"], {})[row["fueltype"]] = float(row["value"])
-                if len(rows) < PAGE_SIZE:
-                     return fuel_mix
-                offset += PAGE_SIZE
+            if len(rows) < PAGE_SIZE:
+                return fuel_mix
+            offset += PAGE_SIZE
 
 
 

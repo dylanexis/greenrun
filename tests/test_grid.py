@@ -5,14 +5,14 @@ from greenrun import grid
 def page(rows):
     return Mock(json=Mock(return_value={"response": {"data": rows}}), raise_for_status=Mock())
 
-def fetch_fuel_mix_groups_by_hour_ang_pages(monkeypatch):
+def test_fetch_fuel_mix_groups_by_hour_and_pages(monkeypatch):
     monkeypatch.setattr(grid, "API_KEY", "test")
     monkeypatch.setattr(grid, "PAGE_SIZE", 2)
 
     pages = [
         page([{"period": "2026-10-29T00", "fueltype": "COL", "value": "300"},
-              {"period": "2026-10-29T00", "fueltype": "WND", "value": None},
-              {"period": "2026-10-29T01", "fueltype": "COL", "value": "250"}])
+              {"period": "2026-10-29T00", "fueltype": "WND", "value": None}]),
+        page([{"period": "2026-10-29T01", "fueltype": "COL", "value": "250"}]),
     ]
     get = Mock(side_effect=pages)
     monkeypatch.setattr(grid.requests, "get", get)

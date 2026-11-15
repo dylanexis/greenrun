@@ -10,7 +10,6 @@ import numpy as np
 
 HOUR_FORMAT = "%Y-%m-%dT%H" # EIA's UTC hour format
 
-
 def intensity(fuel_mix, factors):
     weighted = 0
     total = 0
